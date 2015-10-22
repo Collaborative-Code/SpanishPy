@@ -1,20 +1,43 @@
 import random
 
-def main():
-    numbers = ["cero", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve"]
+from random import shuffle
 
-    quiz_length = int(input("How many questions would you like: "))
+
+def main():
+    numbers = [
+                "cero", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve"
+              ]
+
+    quiz_length = number_of_questions(numbers)
     right = 0
-    for i in range(quiz_length):
-        question = random.randint(0, len(numbers) - 1)
+
+    test = [i for i in range(quiz_length)]
+
+    shuffle(test)
+
+    for num in test:
         coin = random.randint(0, 50)
         if coin < 25:
-            answer = int(input("What number is " + numbers[question] + ": "))
-            if answer == question:
+            answer = int(input("What number is " + numbers[num] + ": "))
+            if answer == num:
                 right += 1
+            else:
+                print("WRONG!")
         else:
-            answer = raw_input("What is " + str(question) + " in spanish: ")
-            if answer == numbers[question]:
+            answer = str(raw_input("What is " + str(num) + " in spanish: "))
+            if answer == numbers[num]:
                 right += 1
-    print("You got a " + str((right / quiz_length) * 100) + "% of the questions right")
+            else:
+                print("WRONG!")
+    print("You got a " + str((right / len(test)) * 100) + "% of the questions right")
+
+
+def number_of_questions(test_bank):
+    user_input = int(input("How many questions would you like: "))
+    if user_input > len(test_bank):
+        print("Please enter a number between 1 and " + str(len(test_bank)))
+        user_input = number_of_questions(test_bank)
+    return user_input
+
+
 main()
